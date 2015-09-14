@@ -1,10 +1,10 @@
-#cs Automatic Reconnect with the Speedport W 723V
+#cs Automatic Reconnect with the Speedport W 723V Typ A
 
 2015.09.14	x fixed expired ssl certificate
 2015.06?	x fixed conection erros, https doesn't work anymore
 2014.01.01 + created
 #ce
-#include <log.au3>
+#include <log.au3> ; "needed" for convenient logging output
 
 ; ---- Login
 $oHTTP = ObjCreate("winhttp.winhttprequest.5.1")
@@ -36,7 +36,7 @@ FileWrite($file,$oReceived)
 FileClose($file)
 
 ; get session
-$cookie = StringRegExp($oHeaderResponses,"Set-Cookie: (SessionID_R3=\w{11}); path",3) ; SessionID_R3=eauTnzR0EeY für cookies
+$cookie = StringRegExp($oHeaderResponses,"Set-Cookie: (SessionID_R3=\w{11}); path",3) ; SessionID_R3=eauTnzR0EeY for cookies
 $cookie = $cookie[0]
 _logit("cookie: " & $cookie)
 $session = StringReplace($cookie,"=",",") ; SessionID_R3,eauTnzR0EeY für urls
@@ -68,7 +68,7 @@ FileWrite($file,$oReceived)
 FileClose($file)
 
 Sleep(2500)
-; --- inet reconecten
+; --- inet reconnect
 ;$oHTTP = 0
 ;$oHTTP = ObjCreate("winhttp.winhttprequest.5.1")
 ;Post request
@@ -94,7 +94,7 @@ FileWrite($file,$oReceived)
 FileClose($file)
 
 ;Sleep(2500)
-; --- Logout
+; --- Logout (only one can be logged in at any one time)
 ;$oHTTP = 0
 ;$oHTTP = ObjCreate("winhttp.winhttprequest.5.1")
 ;Post request
@@ -120,6 +120,4 @@ $file = FileOpen("R:\4logout.html",2)
 FileWrite($file,$oReceived)
 FileClose($file)
 
-;While 1
-	Sleep(12345)
-;WEnd
+Sleep(12345)
